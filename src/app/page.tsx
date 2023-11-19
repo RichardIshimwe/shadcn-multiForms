@@ -192,6 +192,13 @@ const onSubmit = (data: Input) => {
                 <Button
                   type='submit'
                   variant={"outline"}
+                  onClick={() => setStep(0)}
+                >
+                  Back
+                </Button>
+                <Button
+                  type='submit'
+                  variant={"outline"}
                   className={cn("space-y-3", {
                     hidden: step == 0,
                   })}
@@ -202,12 +209,17 @@ const onSubmit = (data: Input) => {
                   type='button'
                   variant={"outline"}
                   onClick={() => {
-                    form.trigger(['confirmPassword','email','name','password','studentId', 'year'])
-                    const emailState = form.getFieldState('email');
+                    form.trigger(["email", "name", "password", "studentId"]);
+                    const emailState = form.getFieldState("email");
                     const nameState = form.getFieldState("name");
                     const passwordState = form.getFieldState("password");
                     const studentIdState = form.getFieldState("studentId");
-                    setStep(1)
+                    if (emailState.invalid || !emailState.isDirty) return;
+                    if (nameState.invalid || !nameState.isDirty) return;
+                    if (passwordState.invalid || !passwordState.isDirty) return;
+                    if (studentIdState.invalid || !studentIdState.isDirty)
+                      return;
+                    setStep(1);
                   }}
                   className='ml-2'
                 >
